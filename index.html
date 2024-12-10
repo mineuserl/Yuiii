@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I'm sorry, Yui.</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #ffecd2, #fcb69f);
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #ff6f61;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.2em;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 1em;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .forgive {
+      background-color: #ff6f61;
+    }
+    .forgive:hover {
+      background-color: #e05454;
+      transform: scale(1.05);
+    }
+    .no {
+      background-color: #ccc;
+      color: #333;
+    }
+    .no:hover {
+      background-color: #aaa;
+      transform: scale(1.05);
+    }
+    #reason-box {
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      max-width: 500px;
+      height: 100px;
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>I'm sorry, Yui.</h1>
+    <p>
+      I realize I might’ve missed the mark when you said "Jgh," and I’m sorry if it felt like I wasn’t paying attention.  
+      Getting to know you has been really exciting, and I want to make sure I’m someone you enjoy talking to :<  
+    </p>
+    <p>
+      You're the only one who I really want to spend my time with, and I don’t want a misunderstanding to get in the way. Can we start fresh?
+    </p>
+    <div class="button-container">
+      <button class="forgive" onclick="sendForgive()">Forgive Me?</button>
+      <button class="no" onclick="negativeResponse()">No</button>
+    </div>
+    <div id="reason-box">
+      <p>If not, please let me know why. I'd love to understand and make things better:</p>
+      <form id="reason-form">
+        <textarea name="reason" id="reason" placeholder="I'd love to know why, so i could keep it up on my mind and get better :>" required></textarea>
+        <button class="forgive" type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="footer">P.S. I promise I’m learning to keep up with everything you say—especially the important stuff :></div>
+  </div>
+
+  <script>
+    function sendForgive() {
+      alert("Thank you, Yui! Let’s keep getting to know each other. I’ll do my best to keep up, i promise :>");
+
+      // Send the forgive notification to Formspree
+      fetch('https://formspree.io/f/xanyzblz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ forgive: "Yui forgave you!" }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("Thank you once more again, yui!, i will keep this an opportunity to grow up myself for you :D");
+          }
+        })
+        .catch(() => {
+          alert("Thank you once more again, yui!, i will keep this an opportunity to grow up myself for you :D");
+        });
+    }
+
+    function negativeResponse() {
+      document.getElementById('reason-box').style.display = 'block';
+    }
+
+    document.getElementById('reason-form').addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent form redirection
+      const reason = document.getElementById('reason').value;
+
+      if (reason.trim() === "") {
+        alert("Please write something before submitting!");
+      } else {
+        alert(`Thank you for sharing, Yui. I'll keep this in mind: "${reason}"`);
+
+        // Send her response to Formspree
+        fetch('https://formspree.io/f/xanyzblz', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ reason: reason }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              alert("Thank you once again, Yui. I'll get better and be the best version of myself for you :D");
+            }
+          })
+          .catch(() => {
+            alert("Thank you once againm, Yui. I'll get better and be the best version of myself for you :D");
+          });
+
+        // Clear the text box after submission
+        document.getElementById('reason').value = '';
+      }
+    });
+  </script>
+</body>
+</html>
